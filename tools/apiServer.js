@@ -37,19 +37,68 @@ server.use(function (req, res, next) {
 
 // Add createdAt to all POSTS
 server.use((req, res, next) => {
+
+    const now = new Date();
+
     if (req.method === "POST") {
-        req.body.createdAt = Date.now();
+        req.body.created_at = now;
+        req.body.last_updated_at = now;
+    } else if (req.method === "PUT") {
+        req.body.created_at = now; // don't know how to refer to existing value
+        req.body.last_updated_at = now;
     }
     // Continue to JSON Server router
     next();
 });
 
-server.post("/courses/", function (req, res, next) {
-    const error = validateCourse(req.body);
+server.post("/projects/", function (req, res, next) {
+    const error = validateProject(req.body);
     if (error) {
         res.status(400).send(error);
     } else {
-        req.body.slug = createSlug(req.body.title); // Generate a slug for new courses.
+        req.body.id = create_UUID();
+        next();
+    }
+});
+
+server.put("/projects/:id", function (req, res, next) {
+    const error = validateProject(req.body);
+    if (error) {
+        res.status(400).send(error);
+    } else {
+        next();
+    }
+});
+
+server.post("/projects/:id/tasks", function (req, res, next) {
+    const error = validateTask(req.body);
+    if (error) {
+        res.status(400).send(error);
+    } else {
+        req.body.id = create_UUID();
+        next();
+    }
+});
+
+server.put("/tasks/:task_id", function (req, res, next) {
+    const error = validateTask(req.body);
+    if (error) {
+        res.status(400).send(error);
+    } else {
+        next();
+    }
+});
+
+server.patch("/tasks/:task_id", function (req, res, next) {
+    let error = validateTaskPatch(req.body);
+
+    if (error) {
+        res.status(400).send(error);
+    } else {
+        error = applyPatch(req.body);
+        if (error) {
+            res.status(500).send(error);
+        }
         next();
     }
 });
@@ -65,17 +114,55 @@ server.listen(port, () => {
 
 // Centralized logic
 
-// Returns a URL friendly slug
-function createSlug(value) {
-    return value
-        .replace(/[^a-z0-9_]+/gi, "-")
-        .replace(/^-|-$/g, "")
-        .toLowerCase();
+
+function validateProject(project) {
+    if (!project.name) return "Project name is required.";
+    return "";
 }
 
-function validateCourse(course) {
-    if (!course.title) return "Title is required.";
-    if (!course.authorId) return "Author is required.";
-    if (!course.category) return "Category is required.";
+function validateTask(task) {
+    if (!task.name) return "Task name is required.";
+    if (!task.details) return "Task details is required.";
+    if (["In Progress", "Done", "Hold", "To Do"].find(it => it === task.status) === undefined) return "Task details is required.";
     return "";
+}
+
+
+function validateTaskPatch(patch) {
+    if (!["test", "remove", "add", "replace", "move", "copy"].find(it => it === patch.op)) {
+        return "Operation is incorrect";
+    }
+
+    if (!["/name", "/details", "/status"].find(it => it === patch.path)) {
+        return "Path not exists";
+    }
+
+    if (!patch.value) {
+        return "Value is required";
+    }
+
+    return undefined;
+}
+
+function applyPatch(patch) {
+    switch (patch.op) {
+        case "replace":
+            patch[`${patch.path.substr(1)}`] = patch.value;
+            patch.op = undefined;
+            patch.path = undefined;
+            patch.value = undefined;
+            break;
+        default:
+            return "Not implmeneted";
+    }
+}
+
+function create_UUID() {
+    let dt = new Date().getTime();
+
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (dt + Math.random() * 16) % 16 | 0;
+        dt = Math.floor(dt / 16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
 }

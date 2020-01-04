@@ -1,92 +1,60 @@
-const courses = [
+const projects = [
     {
-        id: 1,
-        title: "Securing React Apps with Auth0",
-        slug: "react-auth0-authentication-security",
-        authorId: 1,
-        category: "JavaScript"
+        id: "1f814995-da43-4a65-8208-4b5a5bb3538b",
+        name: "Task Manger",
+        created_at: "1915-02-24T03:26:13Z",
+        last_updated_at: "2016-11-03T22:59:04.598Z"
     },
     {
-        id: 2,
-        title: "React: The Big Picture",
-        slug: "react-big-picture",
-        authorId: 1,
-        category: "JavaScript"
-    },
-    {
-        id: 3,
-        title: "Creating Reusable React Components",
-        slug: "react-creating-reusable-components",
-        authorId: 1,
-        category: "JavaScript"
-    },
-    {
-        id: 4,
-        title: "Building a JavaScript Development Environment",
-        slug: "javascript-development-environment",
-        authorId: 1,
-        category: "JavaScript"
-    },
-    {
-        id: 5,
-        title: "Building Applications with React and Redux",
-        slug: "react-redux-react-router-es6",
-        authorId: 1,
-        category: "JavaScript"
-    },
-    {
-        id: 6,
-        title: "Building Applications in React and Flux",
-        slug: "react-flux-building-applications",
-        authorId: 1,
-        category: "JavaScript"
-    },
-    {
-        id: 7,
-        title: "Clean Code: Writing Code for Humans",
-        slug: "writing-clean-code-humans",
-        authorId: 1,
-        category: "Software Practices"
-    },
-    {
-        id: 8,
-        title: "Architecting Applications for the Real World",
-        slug: "architecting-applications-dotnet",
-        authorId: 1,
-        category: "Software Architecture"
-    },
-    {
-        id: 9,
-        title: "Becoming an Outlier: Reprogramming the Developer Mind",
-        slug: "career-reboot-for-developer-mind",
-        authorId: 1,
-        category: "Career"
-    },
-    {
-        id: 10,
-        title: "Web Component Fundamentals",
-        slug: "web-components-shadow-dom",
-        authorId: 1,
-        category: "HTML5"
+        id: "4a2c88e0-f4b3-4827-82f4-701381cf1cac",
+        name: "Other Project",
+        created_at: "1943-08-05T16:04:47Z",
+        last_updated_at: "1964-08-07T08:49:50.598Z"
     }
 ];
 
-const authors = [
-    {id: 1, name: "Cory House"},
-    {id: 2, name: "Scott Allen"},
-    {id: 3, name: "Dan Wahlin"}
+const tasks = [
+    {
+        id: "135291e5-7043-422a-8bc9-708a1798748f",
+        name: "Some task",
+        details: "Some task details",
+        status: 'in Progress',
+        projectId: "1f814995-da43-4a65-8208-4b5a5bb3538b",
+        created_at: "2069-02-14T22:06:47.598Z",
+        last_updated_at: "2072-12-16T15:44:31.598Z"
+    },
+    {
+        id: "1c866731-4e4e-4482-bf9c-275ba677b5cc",
+        name: "Other tasks for project Task Manager",
+        details: "Other task details",
+        status: 'To Do',
+        projectId: "1f814995-da43-4a65-8208-4b5a5bb3538b",
+        created_at: "2069-02-14T22:06:47.598Z",
+        last_updated_at: "2072-12-16T15:44:31.598Z"
+    },
+    {
+        id: "135291e5-7043-422a-8bc9-708a1798748f",
+        name: "Some task for Other Project",
+        details: "Some task details",
+        status: 'Done',
+        projectId: "4a2c88e0-f4b3-4827-82f4-701381cf1cac",
+        created_at: "2069-02-14T22:06:47.598Z",
+        last_updated_at: "2082-08-19T15:04:09.598Z"
+    },
+    {
+        id: "1c866731-4e4e-4482-bf9c-275ba677b5cc",
+        name: "Other tasks for other project",
+        details: "Other task details",
+        status: 'Hold',
+        projectId: "4a2c88e0-f4b3-4827-82f4-701381cf1cac",
+        created_at: "2082-08-19T15:04:09.598Z",
+        last_updated_at: "2095-12-07T05:32:30.598Z"
+    },
 ];
 
-const newCourse = {
-    id: null,
-    title: "",
-    authorId: null,
-    category: ""
-};
 
 // Using CommonJS style export so we can consume via Node (without using Babel-node)
 module.exports = {
-    newCourse,
-    courses,
-    authors
+    projects,
+    tasks
 };
