@@ -17,7 +17,6 @@ import {
 } from "@material-ui/core";
 import {AddTaskForm} from "./AddTaskForm"
 
-
 function a11yProps(index: any) {
     return {
         id: `scrollable-auto-tab-${index}`,
@@ -145,7 +144,7 @@ const App: React.FC = () => {
                 Item Two
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                bo tak
             </TabPanel>
         </>
     );
